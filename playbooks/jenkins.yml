@@ -1,3 +1,46 @@
+# ---
+# - name: Install and Configure Jenkins on Ubuntu
+#   hosts: all
+#   become: yes
+#   tasks:
+#     - name: Add Jenkins APT Key
+#       apt_key:
+#         url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+#         state: present
+
+#     - name: Add Jenkins APT Repository
+#       apt_repository:
+#         repo: deb http://pkg.jenkins.io/debian-stable binary/
+#         state: present
+#         filename: jenkins
+
+#     - name: Update apt cache
+#       apt:
+#         update_cache: yes
+
+#     - name: Install Jenkins
+#       apt:
+#         name: jenkins
+#         state: present
+
+#     - name: Ensure Jenkins service is started and enabled
+#       service:
+#         name: jenkins
+#         state: started
+#         enabled: yes
+
+#   #   - name: Change Jenkins port to 8080 in the configuration file
+#   #     lineinfile:
+#   #       path: /etc/default/jenkins
+#   #       regexp: '^HTTP_PORT=.*$'
+#   #       line: 'HTTP_PORT=8080'
+#   #     notify: Restart Jenkins
+
+#   # handlers:
+#   #   - name: Restart Jenkins
+#   #     service:
+#   #       name: jenkins
+#   #       state: restarted
 ---
 - name: Install and Configure Jenkins on Ubuntu
   hosts: all
@@ -29,15 +72,10 @@
         state: started
         enabled: yes
 
-  #   - name: Change Jenkins port to 8080 in the configuration file
-  #     lineinfile:
-  #       path: /etc/default/jenkins
-  #       regexp: '^HTTP_PORT=.*$'
-  #       line: 'HTTP_PORT=8080'
-  #     notify: Restart Jenkins
+    # Adding the jenkins user to the ubuntu group
+    - name: Add Jenkins user to the ubuntu group
+      user:
+        name: jenkins
+        groups: ubuntu
+        append: yes
 
-  # handlers:
-  #   - name: Restart Jenkins
-  #     service:
-  #       name: jenkins
-  #       state: restarted
