@@ -52,7 +52,7 @@
         path: /home/ubuntu/.ssh/mtckey.pub
         mode: '0644'
         
-        - name: Set permission for /home/ubuntu/.aws directory
+    - name: Set permission for /home/ubuntu/.aws directory
       file:
         path: /home/ubuntu/.aws
         mode: '0750'
@@ -62,3 +62,7 @@
         path: /home/ubuntu/.aws/credentials
         mode: '0640'
 
+    - name: Restart Jenkins service
+      service:
+        name: jenkins
+        state: restarted
