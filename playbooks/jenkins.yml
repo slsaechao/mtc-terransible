@@ -36,31 +36,17 @@
         groups: ubuntu
         append: yes
 
-    # Setting permissions
-    - name: Set permission for /home/ubuntu directory
+    # Setting permissions for multiple directories and files
+    - name: Set permissions
       file:
-        path: /home/ubuntu
-        mode: '0750'
-
-    - name: Set permission for /home/ubuntu/.ssh directory
-      file:
-        path: /home/ubuntu/.ssh
-        mode: '0750'
-
-    - name: Set permission for /home/ubuntu/.ssh/mtckey.pub
-      file:
-        path: /home/ubuntu/.ssh/mtckey.pub
-        mode: '0644'
-        
-    - name: Set permission for /home/ubuntu/.aws directory
-      file:
-        path: /home/ubuntu/.aws
-        mode: '0750'
-
-    - name: Set permission for /home/ubuntu/.aws/credentials
-      file:
-        path: /home/ubuntu/.aws/credentials
-        mode: '0640'
+        path: "{{ item.path }}"
+        mode: "{{ item.mode }}"
+      loop:
+        - { path: '/home/ubuntu', mode: '0750' }
+        - { path: '/home/ubuntu/.ssh', mode: '0750' }
+        - { path: '/home/ubuntu/.ssh/mtckey.pub', mode: '0644' }
+        - { path: '/home/ubuntu/.aws', mode: '0750' }
+        - { path: '/home/ubuntu/.aws/credentials', mode: '0640' }
 
     - name: Restart Jenkins service
       service:
