@@ -1,6 +1,6 @@
 ---
 - name: Install and Configure Jenkins on Ubuntu
-  hosts: all
+  hosts: localhost
   become: yes
   tasks:
     - name: Add Jenkins APT Key
