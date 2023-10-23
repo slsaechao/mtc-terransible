@@ -51,3 +51,14 @@
       file:
         path: /home/ubuntu/.ssh/mtckey.pub
         mode: '0644'
+        
+        - name: Set permission for /home/ubuntu/.aws directory
+      file:
+        path: /home/ubuntu/.aws
+        mode: '0750'
+
+    - name: Set permission for /home/ubuntu/.aws/credentials
+      file:
+        path: /home/ubuntu/.aws/credentials
+        mode: '0640'
+
