@@ -36,3 +36,18 @@
         groups: ubuntu
         append: yes
 
+    # Setting permissions
+    - name: Set permission for /home/ubuntu directory
+      file:
+        path: /home/ubuntu
+        mode: '0750'
+
+    - name: Set permission for /home/ubuntu/.ssh directory
+      file:
+        path: /home/ubuntu/.ssh
+        mode: '0750'
+
+    - name: Set permission for /home/ubuntu/.ssh/mtckey.pub
+      file:
+        path: /home/ubuntu/.ssh/mtckey.pub
+        mode: '0644'
