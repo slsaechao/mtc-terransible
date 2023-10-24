@@ -3,6 +3,10 @@
   hosts: localhost
   become: yes
   tasks:
+    - name: Set timezone to Pacific Time
+      ansible.builtin.timezone:
+        name: America/Los_Angeles
+        
     - name: Add Jenkins APT Key
       apt_key:
         url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
