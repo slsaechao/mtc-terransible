@@ -36,9 +36,27 @@ pipeline {
         sh 'aws ec2 wait instance-status-ok --region us-west-1'
       }
     }
+    stage('Validate Ansible main-playbook') {
+      input {
+        message "Do you want to run main-playbook.yml to install Grafana and Prometheus?"
+        ok "Let's run main-playbook.yml."
+      }
+      steps {
+        echo 'Running main-playbook.yml to install Grafana and Prometheus.'
+      }
+    }
     stage('Ansible') {
       steps {
         ansiblePlaybook(credentialsId: 'ec2-ssh-key', inventory: 'aws_hosts', playbook: 'playbooks/main-playbook.yml')
+      }
+    }
+    stage('Validate Destroy') {
+      input {
+        message "Do you want to run terraform destroy?"
+        ok "Run terraform destroy."
+      }
+      steps {
+        echo 'Running terraform destroy'
       }
     }
     stage('Destroy') {
