@@ -19,6 +19,10 @@ pipeline {
       }
     }
     stage('Validate Apply') {
+      when {
+        beforeInput true
+        branch "dev"
+      }
       input {
         message "Do you want to apply this play?"
         ok "Apply this plan."
@@ -38,6 +42,10 @@ pipeline {
       }
     }
     stage('Validate Ansible main-playbook') {
+      when {
+        beforeInput true
+        branch "dev"
+      }
       input {
         message "Do you want to run main-playbook.yml to install Grafana and Prometheus?"
         ok "Let's run main-playbook.yml."
