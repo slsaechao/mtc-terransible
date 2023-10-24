@@ -33,24 +33,12 @@ resource "aws_instance" "mtc_main" {
   tags = {
     Name = "mtc_main-${random_id.mtc_node_id[count.index].dec}"
   }
-
-  provisioner "local-exec" {
-    command = "printf '\n${self.public_ip}' >> aws_hosts"
-  }
-
-  provisioner "local-exec" {
-    when    = destroy
-    command = "sed -i '/^[0-9]/d' aws_hosts"
-  }
 }
 
-# resource "null_resource" "grafana_install" {
-#   depends_on = [aws_instance.mtc_main]
-#   provisioner "local-exec" {
-#     command = "ansible-playbook -i aws_hosts --key-file /home/ubuntu/.ssh/mtckey playbooks/main-playbook.yml"
-#   }
-# }
+output "grafana_access" {
+  value = { for i in aws_instance.mtc_main[*] : i.tags.Name => "${i.public_ip}:3000" }
+}
 
 output "instance_ips" {
-  value = { for i in aws_instance.mtc_main[*] : i.tags.Name => "${i.public_ip}:3000" }
+  value = [for i in aws_instance.mtc_main[*]: i.public_ip]
 }
